@@ -1,0 +1,23 @@
+name: Branch authors
+
+on:
+  push:
+
+jobs:
+  save:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+          # 別のリポジトリを使う場合は Personal Access Token が必要
+          # token: ${{ secrets.PAT }}
+
+      - name: Pusher
+        run: echo ${{ github.event.pusher.name }} >> ${{ github.event.ref }}
+        working-directory: pusher
+
+      - name: Sender
+        run: echo ${{ github.event.sender.login }} >> ${{ github.event.ref }}
+        working-directory: sender
