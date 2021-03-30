@@ -59,6 +59,12 @@ jobs:
     if: github.event_name == 'delete'
     
     steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+          # 別のリポジトリを使う場合は Personal Access Token が必要
+          # token: ${{ secrets.PAT }}
+
       - name: Delete
         run: |
           if [ -d $DIRECTORY ]
