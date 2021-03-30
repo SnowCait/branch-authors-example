@@ -18,12 +18,19 @@ jobs:
           # 別のリポジトリを使う場合は Personal Access Token が必要
           # token: ${{ secrets.PAT }}
 
+      - name: Config
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
       - name: Pusher
         run: |
           if [ ! -d $DIRECTORY ]
           then
             mkdir -p $DIRECTORY
-            echo $NAME >> $DIRECTORY/author
+            echo $NAME >> ${DIRECTORY}/author
+            git add .
+            git commit -m "${NAME} is pushed"
           fi
         env:
           NAME: ${{ github.event.pusher.name }}
@@ -40,21 +47,8 @@ jobs:
 #           NAME: ${{ github.event.sender.login }}
 #           DIRECTORY: ${{ github.event.ref }}
 
-      - name: Count changes
-        id: changes
-        run: |
-          git status
-          git add -N . # 新規ファイルを含める
-          echo "::set-output name=count::$(git diff --name-only | wc -l)"
-
-      - name: Git commit & push
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "Branch authors"
-          git push
-        if: steps.changes.outputs.count > 0
+      - name: Push
+        run: git push
 
   delete:
     runs-on: ubuntu-20.04
@@ -69,13 +63,20 @@ jobs:
           # 別のリポジトリを使う場合は Personal Access Token が必要
           # token: ${{ secrets.PAT }}
 
+      - name: Config
+        run: |
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+
       - name: Delete branch
         run: |
           if [ -d $DIRECTORY ]
           then
             git rm -r $DIRECTORY
+            git commit -m "Branch ${BRANCH} is deleted"
           fi
         env:
+          BRANCH: ${{ github.event.ref }}
           DIRECTORY: refs/heads/${{ github.event.ref }}
         if: github.event.ref_type == 'branch'
 
@@ -84,22 +85,12 @@ jobs:
           if [ -d $DIRECTORY ]
           then
             git rm -r $DIRECTORY
+            git commit -m "Tag ${TAG} is deleted"
           fi
         env:
+          TAG: ${{ github.event.ref }}
           DIRECTORY: refs/tags/${{ github.event.ref }}
         if: github.event.ref_type == 'tag'
 
-      - name: Count changes
-        id: changes
-        run: |
-          git status
-          echo "::set-output name=count::$(git diff --cached --name-only | wc -l)"
-
-      - name: Git commit & push
-        run: |
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add .
-          git commit -m "Branch authors"
-          git push
-        if: steps.changes.outputs.count > 0
+      - name: Push
+        run: git push
