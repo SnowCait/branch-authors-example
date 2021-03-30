@@ -10,6 +10,7 @@ jobs:
     if: github.event_name == 'push'
 
     steps:
+      - run: cat $GITHUB_EVENT_PATH
       - uses: actions/checkout@v2
         with:
           ref: main
