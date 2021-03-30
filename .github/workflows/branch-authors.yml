@@ -75,7 +75,7 @@ jobs:
             rm -rf $DIRECTORY
           fi
         env:
-          DIRECTORY: refs/head/${{ github.event.ref }}
+          DIRECTORY: refs/heads/${{ github.event.ref }}
 
       - name: Count changes
         id: changes
