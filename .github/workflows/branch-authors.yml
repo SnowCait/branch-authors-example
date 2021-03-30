@@ -82,7 +82,6 @@ jobs:
         id: changes
         run: |
           git status
-          git add -N . # 新規ファイルを含める
           git diff --name-only
           git diff --name-only --diff-filter=D
           echo "::set-output name=count::$(git diff --name-only | wc -l)"
