@@ -30,9 +30,10 @@ jobs:
             mkdir -p $DIRECTORY
             echo $NAME >> ${DIRECTORY}/author
             git add .
-            git commit -m "${NAME} is pushed"
+            git commit -m "${REF} is pushed"
           fi
         env:
+          REF: ${{ github.event.ref }}
           NAME: ${{ github.event.pusher.name }}
           DIRECTORY: ${{ github.event.ref }}
 
