@@ -16,9 +16,9 @@ jobs:
 
       - name: Pusher
         run: |
-          if [ -d $DIRECTORY ]
+          if [ -e $DIRECTORY ]
           then
-            echo $NAME >> author
+            echo $NAME >> $DIRECTORY/author
           fi
         env:
           NAME: ${{ github.event.pusher.name }}
@@ -26,9 +26,9 @@ jobs:
 
       - name: Sender
         run: |
-          if [ -d $DIRECTORY ]
+          if [ -e $DIRECTORY ]
           then
-            echo $NAME >> author
+            echo $NAME >> $DIRECTORY/author
           fi
         env:
           NAME: ${{ github.event.sender.login }}
@@ -36,6 +36,7 @@ jobs:
 
       - name: Git commit & push
         run: |
+          git status
           git add -N . # 新規ファイルを含める
           if ! git diff --exit-code --quiet
           then
