@@ -69,7 +69,7 @@ jobs:
           # 別のリポジトリを使う場合は Personal Access Token が必要
           # token: ${{ secrets.PAT }}
 
-      - name: Delete
+      - name: Delete branch
         run: |
           if [ -d $DIRECTORY ]
           then
@@ -77,6 +77,17 @@ jobs:
           fi
         env:
           DIRECTORY: refs/heads/${{ github.event.ref }}
+        if: github.event.ref_type == 'branch'
+
+      - name: Delete tag
+        run: |
+          if [ -d $DIRECTORY ]
+          then
+            git rm -r $DIRECTORY
+          fi
+        env:
+          DIRECTORY: refs/tags/${{ github.event.ref }}
+        if: github.event.ref_type == 'tag'
 
       - name: Count changes
         id: changes
