@@ -82,11 +82,7 @@ jobs:
         id: changes
         run: |
           git status
-          git diff --name-only
-          git diff --name-only --diff-filter=D
-          git diff --name-only --cached
-          git diff --name-only --cached --diff-filter=D
-          echo "::set-output name=count::$(git diff --name-only | wc -l)"
+          echo "::set-output name=count::$(git diff --cached --name-only | wc -l)"
 
       - name: Git commit & push
         run: |
