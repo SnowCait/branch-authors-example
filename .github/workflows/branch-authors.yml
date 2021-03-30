@@ -29,16 +29,16 @@ jobs:
           NAME: ${{ github.event.pusher.name }}
           DIRECTORY: ${{ github.event.ref }}
 
-      - name: Sender
-        run: |
-          if [ ! -d $DIRECTORY ]
-          then
-            mkdir -p $DIRECTORY
-            echo $NAME >> $DIRECTORY/author
-          fi
-        env:
-          NAME: ${{ github.event.sender.login }}
-          DIRECTORY: ${{ github.event.ref }}
+#       - name: Sender
+#         run: |
+#           if [ ! -d $DIRECTORY ]
+#           then
+#             mkdir -p $DIRECTORY
+#             echo $NAME >> $DIRECTORY/author
+#           fi
+#         env:
+#           NAME: ${{ github.event.sender.login }}
+#           DIRECTORY: ${{ github.event.ref }}
 
       - name: Count changes
         id: changes
