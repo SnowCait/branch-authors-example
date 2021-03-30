@@ -43,6 +43,7 @@ jobs:
       - name: Count changes
         id: changes
         run: |
+          git status
           git add -N . # 新規ファイルを含める
           echo "::set-output name=count::$(git diff --name-only | wc -l)"
 
@@ -70,6 +71,7 @@ jobs:
 
       - name: Delete
         run: |
+          ls -l $DIRECTORY
           if [ -d $DIRECTORY ]
           then
             rm -rf $DIRECTORY
@@ -80,6 +82,7 @@ jobs:
       - name: Count changes
         id: changes
         run: |
+          git status
           git add -N . # 新規ファイルを含める
           echo "::set-output name=count::$(git diff --name-only | wc -l)"
 
