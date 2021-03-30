@@ -7,7 +7,7 @@ on:
 jobs:
   push:
     runs-on: ubuntu-20.04
-    if: $GITHUB_EVENT_NAME == 'push'
+    if: github.event_name == 'push'
 
     steps:
       - uses: actions/checkout@v2
@@ -55,7 +55,7 @@ jobs:
 
   delete:
     runs-on: ubuntu-20.04
-    if: $GITHUB_EVENT_NAME == 'delete'
+    if: github.event_name == 'delete'
     
     steps:
       - name: Delete
