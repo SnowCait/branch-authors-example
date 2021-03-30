@@ -16,14 +16,19 @@ jobs:
 
       - name: Pusher
         run: |
-          echo $NAME >> author
-        working-directory: ${{ github.event.ref }}
+          if [ -d $DIRECTORY ]; then
+            echo $NAME >> author
+          fi
         env:
           NAME: ${{ github.event.pusher.name }}
+          DIRECTORY: ${{ github.event.ref }}
         
 
       - name: Sender
-        run: echo $NAME >> author
-        working-directory: ${{ github.event.ref }}
+        run: |
+          if [ -d $DIRECTORY ]; then
+            echo $NAME >> author
+          fi
         env:
           NAME: ${{ github.event.sender.login }}
+          DIRECTORY: ${{ github.event.ref }}
