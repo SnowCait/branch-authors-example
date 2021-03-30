@@ -13,6 +13,7 @@ jobs:
       - run: cat $GITHUB_EVENT_PATH
       - uses: actions/checkout@v2
         with:
+          # DB 代わりにするブランチ
           ref: main
           # 別のリポジトリを使う場合は Personal Access Token が必要
           # token: ${{ secrets.PAT }}
@@ -61,6 +62,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
+          # DB 代わりにするブランチ
           ref: main
           # 別のリポジトリを使う場合は Personal Access Token が必要
           # token: ${{ secrets.PAT }}
