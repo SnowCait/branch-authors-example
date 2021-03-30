@@ -71,10 +71,9 @@ jobs:
 
       - name: Delete
         run: |
-          ls -l $DIRECTORY
           if [ -d $DIRECTORY ]
           then
-            rm -rf $DIRECTORY
+            git rm -r $DIRECTORY
           fi
         env:
           DIRECTORY: refs/heads/${{ github.event.ref }}
