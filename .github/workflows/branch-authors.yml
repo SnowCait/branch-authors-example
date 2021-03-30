@@ -16,8 +16,9 @@ jobs:
 
       - name: Pusher
         run: |
-          if [ -e $DIRECTORY ]
+          if [ ! -d $DIRECTORY ]
           then
+            mkdir -p $DIRECTORY
             echo $NAME >> $DIRECTORY/author
           fi
         env:
@@ -26,8 +27,9 @@ jobs:
 
       - name: Sender
         run: |
-          if [ -e $DIRECTORY ]
+          if [ ! -d $DIRECTORY ]
           then
+            mkdir -p $DIRECTORY
             echo $NAME >> $DIRECTORY/author
           fi
         env:
