@@ -5,8 +5,9 @@ on:
   delete:
 
 jobs:
-  save:
+  push:
     runs-on: ubuntu-20.04
+    if: $GITHUB_EVENT_NAME == 'push'
 
     steps:
       - uses: actions/checkout@v2
