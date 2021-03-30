@@ -60,6 +60,7 @@ jobs:
     if: github.event_name == 'delete'
     
     steps:
+      - run: cat $GITHUB_EVENT_PATH
       - uses: actions/checkout@v2
         with:
           # DB 代わりにするブランチ
