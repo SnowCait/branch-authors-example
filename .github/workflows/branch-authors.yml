@@ -25,28 +25,27 @@ jobs:
 
       - name: Pusher
         run: |
-          if [ ! -d $DIRECTORY ]
+          if [ ! -d $REF ]
           then
-            mkdir -p $DIRECTORY
-            echo $NAME >> ${DIRECTORY}/author
+            mkdir -p $REF
+            echo $NAME >> ${REF}/author
             git add .
             git commit -m "${REF} is pushed"
           fi
         env:
           REF: ${{ github.event.ref }}
           NAME: ${{ github.event.pusher.name }}
-          DIRECTORY: ${{ github.event.ref }}
 
 #       - name: Sender
 #         run: |
-#           if [ ! -d $DIRECTORY ]
+#           if [ ! -d $REF ]
 #           then
-#             mkdir -p $DIRECTORY
-#             echo $NAME >> $DIRECTORY/author
+#             mkdir -p $REF
+#             echo $NAME >> ${REF}/author
 #           fi
 #         env:
+#           REF: ${{ github.event.ref }}
 #           NAME: ${{ github.event.sender.login }}
-#           DIRECTORY: ${{ github.event.ref }}
 
       - name: Push
         run: git push
@@ -71,26 +70,24 @@ jobs:
 
       - name: Delete branch
         run: |
-          if [ -d $DIRECTORY ]
+          if [ -d $REF ]
           then
-            git rm -r $DIRECTORY
-            git commit -m "Branch ${BRANCH} is deleted"
+            git rm -r $REF
+            git commit -m "${REF} is deleted"
           fi
         env:
-          BRANCH: ${{ github.event.ref }}
-          DIRECTORY: refs/heads/${{ github.event.ref }}
+          REF: refs/heads/${{ github.event.ref }}
         if: github.event.ref_type == 'branch'
 
       - name: Delete tag
         run: |
-          if [ -d $DIRECTORY ]
+          if [ -d $REF ]
           then
-            git rm -r $DIRECTORY
-            git commit -m "Tag ${TAG} is deleted"
+            git rm -r $REF
+            git commit -m "${REF} is deleted"
           fi
         env:
-          TAG: ${{ github.event.ref }}
-          DIRECTORY: refs/tags/${{ github.event.ref }}
+          REF: refs/tags/${{ github.event.ref }}
         if: github.event.ref_type == 'tag'
 
       - name: Push
